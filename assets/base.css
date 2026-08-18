@@ -277,7 +277,7 @@ h5,
   font-style: var(--font-heading-style);
   font-weight: var(--font-heading-weight);
   letter-spacing: calc(var(--font-heading-scale) * 0.06rem);
-  color: rgb(var(--color-foreground));
+  color: rgb(var(--color-heading));
   line-height: calc(1 + 0.3 / max(1, var(--font-heading-scale)));
   word-break: break-word;
 }
@@ -353,27 +353,27 @@ h4,
 
 h5,
 .h5 {
-  font-size: calc(var(--font-heading-scale) * 1.2rem);
+  font-size: calc(var(--font-heading-scale) * 1.4rem);
 }
 
 @media only screen and (min-width: 750px) {
   h5,
   .h5 {
-    font-size: calc(var(--font-heading-scale) * 1.3rem);
+    font-size: calc(var(--font-heading-scale) * 1.4rem);
   }
 }
 
 h6,
 .h6 {
-  color: rgba(var(--color-foreground), 0.75);
+  color: rgba(var(--color-foreground));
   margin-block-start: 1.67em;
   margin-block-end: 1.67em;
 }
 
 blockquote {
   font-style: italic;
-  color: rgba(var(--color-foreground), 0.75);
-  border-left: 0.2rem solid rgba(var(--color-foreground), 0.2);
+  color: rgba(var(--color-foreground));
+  border-left: 0.2rem solid rgba(var(--color-foreground));
   padding-left: 1rem;
 }
 
@@ -1221,6 +1221,8 @@ button.shopify-payment-button__button--unbranded {
 button.shopify-payment-button__button--unbranded {
   min-width: calc(12rem + var(--buttons-border-width) * 2);
   min-height: calc(4.5rem + var(--buttons-border-width) * 2);
+  border-radius: 50px;
+  border: none;
 }
 
 .button,
@@ -1242,7 +1244,7 @@ button.shopify-payment-button__button--unbranded {
   background-color: rgba(var(--color-button), var(--alpha-button-background));
 }
 
-.button:before,
+
 .shopify-challenge__button:before,
 .customer button:before,
 .shopify-payment-button__button--unbranded:before {
@@ -1258,7 +1260,6 @@ button.shopify-payment-button__button--unbranded {
     rgba(var(--color-shadow), var(--shadow-opacity));
 }
 
-.button:after,
 .shopify-challenge__button:after,
 .customer button:after,
 .shopify-payment-button__button--unbranded:after {
@@ -1330,6 +1331,17 @@ button.shopify-payment-button__button--unbranded {
 .button--small {
   padding: 1.2rem 2.6rem;
 }
+
+
+
+
+
+
+
+
+
+
+
 
 /* Shopify Accelerated Checkout */
 
@@ -1576,6 +1588,141 @@ details[open] > .share-button__fallback {
 .share-button__message:not(:empty):not(.hidden) ~ * {
   display: none;
 }
+
+
+
+
+
+
+
+.button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.button span {
+  display: block;
+  width: 100%;
+  white-space: nowrap;
+  transition: transform 0.45s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* First text */
+.button span:first-child {
+  position: relative;
+  transform: translateY(0);
+}
+
+/* Second text */
+.button span:last-child {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transform: translateY(100%);
+}
+
+/* Hover */
+.button:hover span:first-child {
+  transform: translateY(-200%);
+}
+
+.button:hover span:last-child {
+  transform: translateY(0);
+}
+
+
+
+
+
+
+
+/* primary button  */
+.button--primary {
+  background: rgb(var(--color-button));
+  color: rgb(var(--color-button-text));
+}
+
+.button--primary:hover {
+  background: rgb(var(--color-button-hover));
+  color: rgb(var(--color-button-text-hover));
+}
+
+.button--primary-outline {
+  color: rgb(var(--color-button-outline));
+  background: transparent;
+  border: 1px solid rgb(var(--color-button-outline));
+}
+
+
+.button--primary-outline:hover {
+  color: rgb(var(--color-button-text-hover));
+  background: rgb(var(--color-button));
+  border: 1px solid rgb(var(--color-button));
+}
+
+/* secondary button  */
+
+.button--secondary {
+  background-color: rgb(var(--color-secondary-button));
+  color: rgb(var(--color-secondary-button-text));
+  transition: 0.5s;
+  border: 1px solid rgb(var(--color-secondary-button));
+
+}
+
+
+
+.button--secondary:hover {
+  transition: 0.5s;
+  background: rgb(var(--color-secondary-button-hover));
+  color: rgb(var(--color-secondary-button-text-hover));
+  border: 1px solid rgb(var(--color-secondary-button-hover));
+}
+ 
+
+
+
+.button--secondary-outline {
+  color: rgb(var(--color-secondary-button-outline));
+  background: transparent;
+  border: 1px solid rgb(var(--color-secondary-button-outline));
+}
+
+
+.button--secondary-outline:hover {
+  color: rgb(var(--color-secondary-button-outline-hover));
+  background: rgb(var(--color-secondary-button));
+  border: 1px solid rgb(var(--color-secondary-button));
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* component-form */
 .field__input,

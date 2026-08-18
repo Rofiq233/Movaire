@@ -9,76 +9,100 @@
  */
 {
   "sections": {
-    "image_banner": {
-      "type": "image-banner",
+    "hero_Hj6Eyg": {
+      "type": "hero",
       "blocks": {
-        "heading": {
+        "heading_EDVgDM": {
           "type": "heading",
           "settings": {
-            "heading": "Browse our latest products",
-            "heading_size": "h0"
+            "heading": "Your hair. <strong>Your rules.</strong>",
+            "desktop_size": 46,
+            "mobile_size": 30
           }
         },
-        "button": {
-          "type": "buttons",
+        "review_M9NKKY": {
+          "type": "review",
           "settings": {
-            "button_label_1": "Shop all",
-            "button_link_1": "shopify://collections/all",
-            "button_style_secondary_1": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
+            "icon": "shopify://shop_images/5-stars.svg",
+            "review_text": "Loved by 5,000+ customers",
+            "desktop_size": 14,
+            "mobile_size": 12
+          }
+        },
+        "text_ewYafC": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Buy one styling tool and get another <strong>FREE</strong>.</p>",
+            "desktop_size": 20,
+            "mobile_size": 15
+          }
+        },
+        "button_8pkeGY": {
+          "type": "button",
+          "settings": {
+            "button_label": "Buy One, Get One Free",
+            "button_style": "primary",
+            "button_link": ""
           }
         }
       },
       "block_order": [
-        "heading",
-        "button"
+        "heading_EDVgDM",
+        "review_M9NKKY",
+        "text_ewYafC",
+        "button_8pkeGY"
       ],
+      "name": "Hero",
       "settings": {
-        "image_overlay_opacity": 40,
-        "image_height": "large",
-        "desktop_content_position": "bottom-center",
-        "show_text_box": false,
-        "image_behavior": "none",
-        "desktop_content_alignment": "center",
-        "color_scheme": "scheme-3",
-        "mobile_content_alignment": "center",
-        "stack_images_on_mobile": false,
-        "show_text_below": false
+        "layout": "full-width",
+        "desktop_image": "shopify://shop_images/Banner_web_DESK.webp",
+        "mobile_image": "shopify://shop_images/mobile.banner.webp",
+        "image_alt": "Hero banner",
+        "desktop_min_height": 460,
+        "mobile_min_height": 650,
+        "overlay_color": "#000000",
+        "overlay_opacity": 0,
+        "content_max_width": 470,
+        "content_position": "left",
+        "mobile_content_position": "left",
+        "section_color_scheme": "",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "mobile_padding_top": 0,
+        "mobile_padding_bottom": 0
       }
     },
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
+        "collection": "all",
+        "products_to_show": 8,
         "title": "Featured products",
         "heading_size": "h2",
         "description": "",
         "show_description": false,
         "description_style": "body",
-        "collection": "all",
-        "products_to_show": 8,
-        "columns_desktop": 4,
-        "color_scheme": "scheme-1",
+        "columns_desktop": 3,
+        "enable_desktop_slider": false,
         "full_width": false,
         "show_view_all": true,
         "view_all_style": "solid",
-        "enable_desktop_slider": false,
-        "swipe_on_mobile": false,
-        "image_ratio": "adapt",
+        "color_scheme": "scheme-1",
+        "image_ratio": "portrait",
         "image_shape": "default",
         "show_secondary_image": true,
         "show_vendor": false,
         "show_rating": false,
-        "quick_add": "none",
+        "quick_add": "standard",
         "columns_mobile": "2",
+        "swipe_on_mobile": false,
         "padding_top": 44,
         "padding_bottom": 36
       }
     }
   },
   "order": [
-    "image_banner",
+    "hero_Hj6Eyg",
     "featured_collection"
   ]
 }

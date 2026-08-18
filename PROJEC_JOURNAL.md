@@ -28,5 +28,10 @@ Tech Stack:
 - github push 
 
 
-## Learned:
-
+## v0.2.0
+- announcement bar setup
+- hero section setpu
+- scheme setup
+- button style setup
+- respinsvie image
+- smart image 

@@ -1,0 +1,75 @@
+{% liquid
+  assign render_image = image
+
+  if render_image == blank and placeholder_image != blank
+    assign render_image = placeholder_image
+  endif
+
+  assign image_class = class | default: ''
+  assign image_style = style | default: ''
+  assign image_id = id | default: ''
+
+  assign image_loading = loading | default: 'lazy'
+  assign image_sizes = sizes | default: '100vw'
+  assign image_fetchpriority = fetchpriority
+
+  if alt != blank
+    assign image_alt = alt
+  elsif render_image != blank
+    assign image_alt = render_image.alt
+  else
+    assign image_alt = ''
+  endif
+
+  assign image_width = width
+
+  if image_width == blank
+    if render_image != blank
+      assign image_width = render_image.width
+    else
+      assign image_width = 1200
+    endif
+  endif
+
+  if render_image != blank
+    if image_width > render_image.width
+      assign image_width = render_image.width
+    endif
+
+    assign image_height = image_width | divided_by: render_image.aspect_ratio | round
+  endif
+
+  assign image_widths = widths
+
+  if image_widths == blank
+    assign image_widths = image_width
+  endif
+%}
+
+{% if render_image != blank %}
+
+  {{
+    render_image
+    | image_url: width: image_width
+    | image_tag:
+      widths: image_widths,
+      sizes: image_sizes,
+      width: image_width,
+      height: image_height,
+      loading: image_loading,
+      fetchpriority: image_fetchpriority,
+      alt: image_alt,
+      class: image_class,
+      id: image_id,
+      style: image_style
+  }}
+
+{% elsif placeholder != blank %}
+
+  {{ placeholder | placeholder_svg_tag: image_class }}
+
+{% else %}
+
+  {{ 'image' | placeholder_svg_tag: image_class }}
+
+{% endif %}

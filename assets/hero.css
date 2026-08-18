@@ -1,0 +1,387 @@
+/* =========================================================
+   HERO SECTION
+========================================================= */
+
+.hero {
+    position: relative;
+    width: 100%;
+    min-height: var(--hero-desktop-min-height);
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   HERO IMAGE
+========================================================= */
+
+.hero__media {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    z-index: 1;
+    overflow: hidden;
+}
+
+.hero__media picture {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+}
+
+.hero__image {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+img.banner__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center !important;
+}
+
+/* Placeholder */
+
+.hero__placeholder {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+}
+
+.hero::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: var(--hero-overlay-color);
+
+    opacity: var(--hero-overlay-opacity);
+
+    z-index: 2;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.hero__content {
+    position: relative;
+
+    z-index: 3;
+
+    width: 100%;
+    min-height: var(--hero-desktop-min-height);
+
+    display: flex;
+    align-items: center;
+
+    box-sizing: border-box;
+
+    padding: 50px 60px;
+}
+
+
+/* =========================================================
+   DESKTOP CONTENT POSITION
+========================================================= */
+
+.hero__content--desktop-left {
+    justify-content: flex-start;
+    text-align: left;
+}
+
+.hero__content--desktop-center {
+    justify-content: center;
+    text-align: center;
+}
+
+.hero__content--desktop-right {
+    justify-content: flex-end;
+    text-align: right;
+}
+
+
+/* =========================================================
+   CONTENT INNER
+========================================================= */
+
+.hero__content-inner {
+    width: 100%;
+    max-width: var(--hero-content-max-width);
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   HEADING
+========================================================= */
+
+.hero__heading {
+    display: block;
+
+    margin: 0 0 18px;
+    padding: 0;
+    font-size: var(--hero-heading-size);
+    line-height: 1.15;
+    letter-spacing: normal;
+    word-break: normal;
+    font-weight: 500;
+}
+
+
+/* Rich text inside heading */
+
+
+
+.hero__heading strong {
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   REVIEW
+========================================================= */
+
+.hero__review {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin: 0 0 18px;
+    padding: 0;
+
+    font-size: var(--hero-review-size);
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+
+/* =========================================================
+   STARS
+========================================================= */
+
+.hero__stars {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 2px;
+
+    flex-shrink: 0;
+
+    line-height: 1;
+}
+
+.hero__star {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 18px;
+    height: 18px;
+
+    padding: 0;
+
+    font-size: 15px;
+    line-height: 1;
+}
+
+
+
+
+/* Review text */
+
+.hero__review-text {
+    display: inline-block;
+}
+
+
+/* =========================================================
+   TEXT BLOCK
+========================================================= */
+
+.hero__text {
+    display: block;
+
+    margin: 0 0 22px;
+    padding: 0;
+    font-weight: 600;
+    font-size: var(--hero-text-size);
+    line-height: 1.5;
+}
+
+
+/* Shopify rich text */
+
+.hero__text p {
+    margin: 0;
+    padding: 0;
+}
+
+.hero__text p+p {
+    margin-top: 10px;
+}
+
+.hero__text strong {
+    font-weight: 700;
+}
+
+.hero__text em {
+    font-style: italic;
+}
+
+.hero__text a {
+    color: inherit;
+}
+
+
+
+@media screen and (max-width: 749px) {
+
+
+    .hero {
+        min-height: var(--hero-mobile-min-height);
+    }
+
+    .hero__image {
+        object-position: center center;
+    }
+
+    .hero__content {
+        min-height: var(--hero-mobile-min-height);
+
+        padding: 25px 22px 30px;
+
+        box-sizing: border-box;
+
+        align-items: flex-end;
+    }
+
+    .hero__content--mobile-left {
+        justify-content: flex-start;
+        text-align: left;
+    }
+
+
+    .hero__content--mobile-center {
+        justify-content: center;
+        text-align: center;
+    }
+
+    .hero__content--mobile-right {
+        justify-content: flex-end;
+        text-align: right;
+    }
+
+    .hero__content-inner {
+        width: 100%;
+        max-width: var(--hero-content-max-width);
+    }
+
+    .hero__heading {
+        margin-bottom: 12px;
+
+        font-size: var(--hero-heading-mobile-size);
+
+        line-height: 1.15;
+    }
+
+    .hero__review {
+        gap: 7px;
+
+        margin-bottom: 14px;
+
+        font-size: var(--hero-review-mobile-size);
+
+        line-height: 1.2;
+    }
+
+    .hero__stars {
+        gap: 1px;
+    }
+
+    .hero__star {
+        width: 16px;
+        height: 16px;
+
+        font-size: 12px;
+    }
+
+    .hero__text {
+        margin-bottom: 18px;
+
+        font-size: var(--hero-text-mobile-size);
+
+        line-height: 1.45;
+    }
+
+    .hero__button {
+        min-height: 48px;
+
+        padding: 0 26px;
+
+        font-size: var(--hero-button-mobile-size);
+    }
+
+}
+
+@media screen and (max-width: 480px) {
+
+    .hero__content {
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-bottom: 25px;
+    }
+
+
+    .hero__review {
+        gap: 6px;
+    }
+
+
+    .hero__star {
+        width: 15px;
+        height: 15px;
+
+        font-size: 11px;
+    }
+
+
+    .hero__button {
+        padding-left: 22px;
+        padding-right: 22px;
+    }
+
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+
+    .hero__button {
+        transition: none;
+    }
+
+    .hero__button:hover {
+        transform: none;
+    }
+
+}

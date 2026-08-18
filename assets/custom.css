@@ -1,0 +1,25 @@
+
+/* common css start here  */
+
+
+.full-width{
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 3rem;
+}
+
+
+/* common css end here  */
+
+
+.announcement-bar__message {
+    font-family: var(--font-body-family);
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+
+
+
+
+

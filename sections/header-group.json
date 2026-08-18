@@ -17,7 +17,7 @@
         "announcement-bar-0": {
           "type": "announcement",
           "settings": {
-            "text": "Welcome to our store",
+            "text": "Buy 1 Device and <strong>Get 1 Free</strong>",
             "link": ""
           }
         }

@@ -120,9 +120,12 @@
         }
       }
     },
-    "colors": {
+       "colors": {
       "name": "Colors",
       "settings": {
+        "accent": {
+          "label": "Accent Color"
+        },
         "background": {
           "label": "Background"
         },
@@ -130,20 +133,71 @@
           "label": "Background gradient",
           "info": "Background gradient replaces background where possible."
         },
+        "heading": {
+          "label": "Heading"
+        },
         "text": {
           "label": "Text"
         },
-        "button_background": {
-          "label": "Solid button background"
+        "primary_button_header": {
+          "label": "Primary Buttons Color"
         },
-        "button_label": {
-          "label": "Solid button label"
+        "primary_button_label_bg": {
+          "label": "Primary Button background"
+        },
+        "primary_button_label": {
+          "label": "Primary Button"
+        },
+        "primary_button_label_hover_bg": {
+          "label": "Primary Button:hover"
+        },
+        "primary_button_label_hover": {
+          "label": "Primary Button Label:Hover"
+        },
+        "primary_button_outline": {
+          "label": "Primary Outline"
+        },
+        "primary_button_outline_hover": {
+          "label": "Primary Outline Hover"
+        },
+        "secondary_button_header": {
+          "label": "Secondary Buttons Color"
+        },
+        "secondary_button_label_bg": {
+          "label": "Secondary Button background"
         },
         "secondary_button_label": {
-          "label": "Outline button"
+          "label": "Secondary Button"
+        },
+        "secondary_button_label_hover_bg": {
+          "label": "Secondary Button:hover"
+        },
+        "secondary_button_label_hover": {
+          "label": "Secondary Button Label:Hover"
+        },
+        "secondary_button_outline": {
+          "label": "Secondary Outline"
+        },
+        "secondary_button_outline_hover": {
+          "label": "Secondary Outline Hover"
         },
         "shadow": {
           "label": "Shadow"
+        },
+        "others_header": {
+          "label": "Others Color"
+        },
+        "input_color": {
+          "label": "Input Color"
+        },
+        "input_color_bg": {
+          "label": "Input Background Color"
+        },
+        "input_outline": {
+          "label": "Input Outline Outline"
+        },
+        "placeholder": {
+          "label": "Placeholder Color"
         }
       }
     },

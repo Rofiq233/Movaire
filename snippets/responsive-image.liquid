@@ -1,0 +1,81 @@
+
+
+
+
+
+{% liquid
+  assign desktop = desktop_image
+  assign mobile = mobile_image
+
+  if mobile == blank
+    assign mobile = desktop
+  endif
+
+  assign image_sizes = sizes | default: '100vw'
+  assign image_class = class | default: ''
+
+  assign image_loading = loading | default: 'lazy'
+
+  assign image_fetchpriority = fetchpriority
+
+  if alt != blank
+    assign image_alt = alt
+  elsif desktop != blank
+    assign image_alt = desktop.alt
+  elsif mobile != blank
+    assign image_alt = mobile.alt
+  else
+    assign image_alt = 'Image'
+  endif
+%}
+
+{% if desktop != blank or mobile != blank %}
+
+<picture>
+
+  {% if mobile != blank  %}
+    <source
+      media="(max-width:749px)"
+      srcset="
+      {{ mobile | image_url: width: 320 }} 320w,
+      {{ mobile | image_url: width: 480 }} 480w,
+      {{ mobile | image_url: width: 640 }} 640w,
+      {{ mobile | image_url: width: 750 }} 750w,
+      {{ mobile | image_url: width: 828 }} 828w"
+      sizes="{{ image_sizes }}">
+  {% endif %}
+
+  {% assign fallback = desktop | default: mobile %}
+
+  <img
+    src="{{ fallback | image_url: width: 1600 }}"
+    srcset="
+    {{ fallback | image_url: width: 375 }} 375w,
+    {{ fallback | image_url: width: 550 }} 550w,
+    {{ fallback | image_url: width: 750 }} 750w,
+    {{ fallback | image_url: width: 990 }} 990w,
+    {{ fallback | image_url: width: 1200 }} 1200w,
+    {{ fallback | image_url: width: 1500 }} 1500w,
+    {{ fallback | image_url: width: 1780 }} 1780w,
+    {{ fallback | image_url: width: 2000 }} 2000w"
+    sizes="{{ image_sizes }}"
+    width="{{ fallback.width }}"
+    height="{{ fallback.height }}"
+    loading="{{ image_loading }}"
+    {% if image_fetchpriority %}
+      fetchpriority="{{ image_fetchpriority }}"
+    {% endif %}
+    alt="{{ image_alt | escape }}"
+    class="{{ image_class }}"
+    {% if fallback.presentation.focal_point %}
+      style="object-position: {{ fallback.presentation.focal_point }};"
+    {% endif %}
+  >
+
+</picture>
+
+{% else %}
+
+{{ placeholder | placeholder_svg_tag: 'placeholder-svg ' }}
+
+{% endif %}
