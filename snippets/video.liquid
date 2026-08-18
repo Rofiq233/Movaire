@@ -1,0 +1,150 @@
+{%- doc -%}
+  Video renderer snippet.
+
+  @param video_type   youtube | vimeo | local
+  @param source       uploaded | external
+  @param video_url    VideoDrop
+  @param uploaded_video MediaVideo
+  @param cover_image  Image
+  @param autoplay     boolean
+  @param muted        boolean
+  @param loop         boolean
+  @param uniq_id      string
+  @param class        string
+
+
+  @example
+  {% render 'video', settings: section.settings %}
+{%- enddoc -%}
+
+{% liquid
+  assign sizes = '(min-width: 2000px) 1000px, (min-width: 1445px) calc(100vw / 2), (min-width: 1200px) calc(100vw / 1.75), (min-width: 1000px) calc(100vw / 1.5), (min-width: 750px) calc(100vw / 3), 100vw'
+  assign class = " " | append: class | strip 
+  %}
+
+{% comment %} deferred-media {% endcomment %}
+
+<custom-video-media
+  data-section-id="{{ uniq_id }}"
+  data-id-video="{{ video_url.id }}"
+  data-type="{{ video_type }}"
+  data-mute="{{muted}}"
+  data-autoplay="{{autoplay}}"
+  class="media-deferred-video js-media-deferred-video media-wrapper absolute-element {{class}}"
+>
+
+    <div class="deferred-media__button-wrapper js-load-media-trigger">
+      <button
+        type="button"
+        class="video-play-pause-button"
+        role="button"
+        aria-label="Play or Pause Video"
+        data-playing="false"
+      >
+        {% comment %} {% render 'icons' icon: 'play', width: '16', height: '16', class: 'video-play-icon' %} {% endcomment %}
+        {% comment %} {% render 'icons' icon: 'pause', width: '16', height: '16', class: 'video-pause-icon' %} {% endcomment %}
+      </button>
+    </div>
+
+    {%- if cover_image != blank -%}
+        {% render 'smart-image',
+                      image: cover_image,
+                      width: 1200,
+                      widths: '400,450,500,550,600,700,800,900,1000,1100,1200',
+                      oading: 'lazy',
+                      sizes: '1200'
+                    %}
+ 
+    {% else %}
+      {{ 'hero-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+    {%- endif -%}
+  
+    {%- if source == 'uploaded' and uploaded_video != blank -%}
+      <template>
+        {{
+          uploaded_video
+          | video_tag:
+            autoplay: autoplay,
+            loop: loop,
+            muted: muted,
+            controls: false,
+            preload: 'none',
+            playsinline: true,
+            class: 'js-media-item-video',
+            aria_label: 'Video player'
+        }}
+      </template>
+    {%- elsif source == 'external' -%}
+      <div
+        class="js-media-item external-video ratio-media js-{{ video_url.type }}"
+        data-type="{{ video_type }}"
+        id="DeferredVideo-{{ uniq_id }}-{{ video_url.id }}"
+      ></div>
+
+    {% else %}
+      <template>
+        <video class="js-media-item-video" playsinline autoplay loop muted preload="none">
+          <source
+            data-src="https://cdn.shopify.com/videos/c/o/v/9e2856260bf34cdca236ddebb04785f0.mp4"
+            type="video/mp4"
+            src="https://cdn.shopify.com/videos/c/o/v/9e2856260bf34cdca236ddebb04785f0.mp4"
+          >
+        </video>
+      </template>
+    {% comment %} {%- endif -%} {% endcomment %}
+
+  {% else %}
+    {% if source == 'external' %}
+      {%- if cover_image != blank -%}
+        {%- render 'image', image: cover_image, src_width: 960, sizes: sizes, lazy_load: true -%}
+      {% else %}
+        {{ 'hero-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      {%- endif -%}
+    {% endif %}
+
+    {%- if source == 'uploaded' and uploaded_video != blank -%}
+      {% capture local_video %}
+        {{- uploaded_video | video_tag: autoplay: true, controls: false, loop: true, preload: 'none', class: 'js-media-item-video' -}}
+      {% endcapture %}
+      {{ local_video | replace: '<source src="', '<source data-src="' }}
+    {%- elsif source == 'external' %}
+      <iframe
+        tabindex="-1"
+        title="Deferred video"
+        class="video-ifram js-local-video js-{{ video_url.type }}"
+         allow="autoplay; encrypted-media"
+        loading="lazy"
+        referrerpolicy="strict-origin-when-cross-origin"
+        data-src="
+          {%- if video_url.type == 'youtube' -%}
+            https://www.youtube.com/embed/{{ video_url.id }}?version=3&enablejsapi=1&mute=1&loop=1&controls=0&rel=0&showinfo=0&autoplay=1&playlist={{ video_url.id }}
+          {%- elsif video_url.type == 'vimeo' -%}
+            https://player.vimeo.com/video/{{ video_url.id }}?api=1&background=1&autoplay=1&loop=1&title=0&byline=0&portrait=0&controls=0&muted=1
+          {%- endif -%}
+        "
+      >
+      </iframe>
+    {%- else %}
+      <video class="js-media-item-video" playsinline autoplay loop muted preload="none">
+        <source
+          data-src="https://cdn.shopify.com/videos/c/o/v/9e2856260bf34cdca236ddebb04785f0.mp4"
+          type="video/mp4"
+          src="https://cdn.shopify.com/videos/c/o/v/9e2856260bf34cdca236ddebb04785f0.mp4"
+        >
+      </video>
+    {% endif %}
+  {% endif %}
+</custom-video-media>
+
+ 
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  "name": "Product video",
+  "contentUrl": "{{ video_url | default: uploaded_video.sources.first.url }}",
+  "thumbnailUrl": "{{ cover_image | image_url }}",
+  "uploadDate": "{{ 'now' | date: '%Y-%m-%d' }}"
+}
+</script>

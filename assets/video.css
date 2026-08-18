@@ -1,0 +1,41 @@
+.video_wrapper .full-width{
+    width: 100%;
+    padding: 0 !important;
+}
+
+
+
+.video-wrap{
+    position: relative;
+    height: var(--hero-desktop-min-height);  
+}
+.video-wrap custom-video-media{
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: block !important;
+    
+}  
+.video-wrap custom-video-media img,
+.video-wrap custom-video-media video,
+.video-wrap custom-video-media iframe{
+   width: 100%;
+   height: 100%;
+   object-fit: cover;
+   position: absolute;
+   top: 0;
+   left: 0;
+   transform: scale(1) !important;
+
+
+}
+
+
+
+@media(max-width:768px){
+  .video-wrap{
+    position: relative;
+    height: var(--hero-mobile-min-height);  
+}  
+}

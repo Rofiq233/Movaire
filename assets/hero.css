@@ -295,6 +295,7 @@ img.banner__image {
     .hero__content-inner {
         width: 100%;
         max-width: var(--hero-content-max-width);
+        margin-bottom: 40px;
     }
 
     .hero__heading {

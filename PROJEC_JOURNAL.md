@@ -35,3 +35,6 @@ Tech Stack:
 - button style setup
 - respinsvie image
 - smart image 
+## v0.3.0
+- featured product section 60% done
+- full with video section added 

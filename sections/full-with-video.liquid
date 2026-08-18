@@ -1,0 +1,254 @@
+
+{{ 'video.css' |  asset_url |  stylesheet_tag }}
+
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.mobile_padding_top}}px;
+    padding-bottom: {{ section.settings.mobile_padding_bottom }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{%- liquid
+    assign section_settings = section.settings
+ assign source = section_settings.source
+  assign video_url = section_settings.video_url
+
+  assign uploaded_video = section_settings.uploaded_video
+
+  assign cover_image = section_settings.cover_image
+
+  if uploaded_video != blank and source == 'uploaded'
+    assign cover_image = uploaded_video.preview_image
+  endif
+
+  assign autoplay = section_settings.enable_autoplay
+  assign loop = section_settings.enable_loop_video | default: false
+  assign muted = section_settings.enable_video_mute
+
+
+
+  assign video_type = video_url.type | default: 'local_video'
+  if source == 'uploaded'
+    assign video_type = 'local_video'
+  endif
+-%}
+
+
+<div class="video_wrapper gradient color-{{ section.settings.section_color_scheme }} section-{{ section.id }}-padding"
+style=" --hero-desktop-min-height: {{ section.settings.desktop_min_height }}px;
+    --hero-mobile-min-height: {{ section.settings.mobile_min_height }}px;"
+>
+   <div class="{{ section.settings.layout }}">
+       <div class="video-wrap">
+        {% render 'video',
+                video_type: video_type
+                source: source,
+                video_url: video_url,
+                uploaded_video: uploaded_video,
+                cover_image: cover_image,
+                autoplay: autoplay,
+                muted: muted,
+                loop: loop,
+                uniq_id: section.id,
+                class:"text-with-video_video"
+                %}
+       </div>
+   </div>
+</div>
+
+
+
+
+{{ 'video.js' |  asset_url |  script_tag }}
+
+
+{% schema %}
+  {
+    "name": "Video",
+    "tag": "section",
+    "class": "video",
+    "settings": [
+    {
+    "type": "select",
+    "id": "layout",
+    "label": "Layout",
+     "options": [
+        {
+            "label": "Full width",
+            "value": "full-width"
+        },
+        {
+            "label": "Page width",
+            "value": "page-width"
+        }
+      ]
+    },
+
+
+    {
+      "type": "select",
+      "id": "source",
+      "label": "Source",
+      "default": "uploaded",
+      "options": [
+        {
+          "value": "external",
+          "label": "External url"
+        },
+        {
+          "value": "uploaded",
+          "label": "Uploaded"
+        }
+      ]
+    },
+    {
+      "type": "video_url",
+      "id": "video_url",
+      "accept": ["youtube", "vimeo"],
+      "default": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
+      "visible_if": "{{ section.settings.source  == 'external' }}",
+      "label": "URL"
+    },
+    {
+      "type": "video",
+      "id": "uploaded_video",
+      "visible_if": "{{ section.settings.source  == 'uploaded' }}",
+      "label": "Video"
+    },
+    {
+      "type": "video",
+      "id": "uploaded_video_mobile",
+      "visible_if": "{{ section.settings.source  == 'uploaded' }}",
+      "label": "Mobile video (optional)"
+    },
+    {
+      "type": "image_picker",
+      "id": "cover_image",
+      "visible_if": "{{ section.settings.source  == 'external' }}",
+      "label": "Cover image"
+    },
+    {
+      "type": "header",
+      "content": "Video settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_autoplay",
+      "label": "Autoplay",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_loop_video",
+      "label": "Loop video",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_mute_video",
+      "label": "Mute video",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Height"
+    },
+
+    {
+      "type": "range",
+      "id": "desktop_min_height",
+      "label": "Desktop min height",
+      "min": 300,
+      "max": 1500,
+      "step": 50,
+      "unit": "px",
+      "default": 550
+    },
+ 
+    {
+      "type": "range",
+      "id": "mobile_min_height",
+      "label": "Mobile min height",
+      "min": 300,
+      "max": 1000,
+      "step": 10,
+      "unit": "px",
+      "default": 650
+    },
+          {
+              "type": "color_scheme",
+              "id": "section_color_scheme",
+              "label": "Scheme"
+            },
+            
+            {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "paragraph",
+      "content": "Desktop"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    },
+    {
+      "type": "paragraph",
+      "content": "Mobile"
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Bottom",
+      "default": 36
+    }
+
+    ],
+    "presets": [
+      {
+        "name": "Video",
+        "settings": {
+        }
+      }
+    ]
+  }
+{% endschema %}
