@@ -1,0 +1,528 @@
+{{ 'hair-texture-cards.css' | asset_url | stylesheet_tag }}
+
+
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.mobile_padding_top}}px;
+    padding-bottom: {{ section.settings.mobile_padding_bottom }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+
+<div
+  id="HairTextureCards-{{ section.id }}"
+  class="hair-texture-section gradient color-{{ section.settings.section_color_scheme }} section-{{ section.id }}-padding"
+  style="
+    --ht-heading-size: {{ section.settings.heading_size }}px;
+    --ht-description-size: {{ section.settings.description_size }}px;
+    --ht-card-title-size: {{ section.settings.card_title_size }}px;
+    --ht-card-text-size: {{ section.settings.card_text_size }}px;
+    --ht-button-size: {{ section.settings.button_size }}px;
+
+    --ht-card-gap: {{ section.settings.card_gap }}px;
+    --ht-columns-desktop: {{ section.settings.columns_desktop }};
+    --ht-overlay-color: {{ section.settings.overlay_color }};
+    --ht-overlay-opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};"
+>
+  <div class="hair-texture-section__inner ">
+
+    {% if section.settings.heading != blank or section.settings.description != blank %}
+
+      <div class="hair-texture-section__intro ">
+
+        {% if section.settings.heading != blank %}
+          <h2 class="hair-texture-section__heading">
+            {{ section.settings.heading }}
+          </h2>
+        {% endif %}
+
+        {% if section.settings.description != blank %}
+          <div class="hair-texture-section__description">
+            {{ section.settings.description }}
+          </div>
+        {% endif %}
+
+      </div>
+
+    {% endif %}
+
+    {% if section.blocks.size > 0 %}
+
+      <div class="hair-texture-cards gradient color-{{ section.settings.card_color_scheme }}">
+
+        {% for block in section.blocks %}
+
+          {% liquid
+
+            assign image_ratio = section.settings.image_ratio
+
+            case image_ratio
+
+              when 'portrait'
+                assign ratio = 0.8
+
+              when 'square'
+                assign ratio = 1
+
+              when 'adapt'
+                if block.settings.image != blank
+                  assign ratio = block.settings.image.aspect_ratio
+                else
+                  assign ratio = 1
+                endif
+
+              else
+                assign ratio = 1
+
+            endcase
+
+            assign ratio_percent = 100 | divided_by: ratio
+
+          %}
+
+
+          <article
+            class="hair-texture-card"
+            {{ block.shopify_attributes }}
+          >
+
+            <div
+              class="hair-texture-card__media"
+              style="--ht-ratio-percent: {{ ratio_percent }}%;"
+            >
+
+              <div
+                class="hair-texture-card__ratio-spacer"
+                aria-hidden="true"
+              ></div>
+                 {% render 'smart-image',
+                      image: block.settings.image,
+                      width: 2000,
+                      widths: '375, 550, 750, 990, 1200, 1500, 1800, 2000',
+                      sizes: '(min-width: 990px) calc(100vw / 4), (min-width: 750px) 50vw, 86vw',
+                      alt: block.settings.image.alt
+                    %}
+              {% if section.settings.enable_overlay %}
+
+                <div
+                  class="hair-texture-card__overlay"
+                  aria-hidden="true"
+                ></div>
+
+              {% endif %}
+
+
+              <div class="hair-texture-card__content">
+
+                {% if block.settings.title != blank %}
+
+                  <h3 class="hair-texture-card__title">
+                    {{ block.settings.title }}
+                  </h3>
+
+                {% endif %}
+
+
+                <div class="hair-texture-card__bottom">
+
+                  {% if block.settings.text != blank %}
+
+                    <div class="hair-texture-card__text">
+                      {{ block.settings.text }}
+                    </div>
+
+                  {% endif %}
+
+ 
+                  {% if block.settings.btn != blank %}
+                      <a
+                        href="{{ block.settings.url }}"
+                        class="hair-texture-card__button button button--{{ block.settings.button_style }}"
+                      >
+                        <span>{{ block.settings.btn }}</span>
+                        <span>{{ block.settings.btn }}</span>
+                      </a>
+                     
+                  {% endif %}
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </article>
+
+        {% endfor %}
+
+      </div>
+
+    {% endif %}
+
+  </div>
+</div>
+
+
+{% schema %}
+
+{
+  "name": "Text with cards",
+
+  "tag": "section",
+
+  "class": "section-hair-texture-cards",
+
+  "settings": [
+
+    {
+      "type": "header",
+      "content": "Section content"
+    },
+
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Your hair, as it is"
+    },
+
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>You don't have to change your hair to use our products. Our products adapt to you. Every texture, every volume, every shape deserves tools that truly work.</p>"
+    },
+
+
+    {
+      "type": "header",
+      "content": "Image"
+    },
+
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Image ratio",
+
+      "options": [
+        {
+          "value": "adapt",
+          "label": "Adapt"
+        },
+        {
+          "value": "portrait",
+          "label": "Portrait"
+        },
+        {
+          "value": "square",
+          "label": "Square"
+        }
+      ],
+
+      "default": "adapt"
+    },
+
+
+    {
+      "type": "header",
+      "content": "Card overlay"
+    },
+
+    {
+      "type": "checkbox",
+      "id": "enable_overlay",
+      "label": "Enable card overlay",
+      "default": true
+    },
+
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay color",
+      "default": "#000000"
+    },
+
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay opacity",
+
+      "min": 0,
+      "max": 100,
+      "step": 1,
+
+      "unit": "%",
+
+      "default": 12
+    },
+
+
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Section heading size",
+
+      "min": 20,
+      "max": 80,
+      "step": 1,
+
+      "unit": "px",
+
+      "default": 44
+    },
+
+    {
+      "type": "range",
+      "id": "description_size",
+      "label": "Section description size",
+
+      "min": 10,
+      "max": 24,
+      "step": 1,
+
+      "unit": "px",
+
+      "default": 14
+    },
+
+    {
+      "type": "range",
+      "id": "card_title_size",
+      "label": "Card title size",
+
+      "min": 18,
+      "max": 80,
+      "step": 1,
+
+      "unit": "px",
+
+      "default": 42
+    },
+
+    {
+      "type": "range",
+      "id": "card_text_size",
+      "label": "Card text size",
+
+      "min": 10,
+      "max": 24,
+      "step": 1,
+
+      "unit": "px",
+
+      "default": 14
+    },
+
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "paragraph",
+      "content": "Desktop"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 40
+    }, 
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 40
+    },
+    {
+      "type": "paragraph",
+      "content": "Mobile"
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Top",
+      "default": 36
+    },
+    { 
+      "type": "range",
+      "id": "mobile_padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Bottom",
+      "default": 36
+    },
+       { 
+              "type": "color_scheme",
+              "id": "section_color_scheme",
+              "label": "Scheme",
+              "default":"scheme-1"
+            },
+       {
+              "type": "color_scheme",
+              "id": "card_color_scheme",
+              "label": "Card scheme",
+              "default":"scheme-2"
+            }
+
+  ],
+
+
+  "blocks": [
+
+    {
+      "type": "Card",
+
+      "name": "Hair card",
+
+      "settings": [
+
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Blowout"
+        },
+
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Description",
+          "default": "For those who move fast but never compromise on elegance."
+        },
+
+        {
+        "type": "text",
+        "id": "btn",
+        "label": "Button text",
+         "default":"see more"
+       },
+        {
+          "type": "select",
+          "id": "button_style",
+          "label": "Button style",
+          "options": [
+            {
+              "value": "primary",
+              "label": "Primary"
+            },
+            {
+              "value": "primary-outline",
+              "label": "Primary outline"
+            },
+            {
+              "value": "secondary",
+              "label": "Secondary"
+            },
+            {
+              "value": "secondary-outline",
+              "label": "Secondary Outline"
+            }
+          ]
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Url"
+        },
+
+      ]
+    }
+
+  ],
+
+
+  "presets": [
+
+    {
+      "name": "Text with cards",
+
+      "settings": {
+        "image_ratio": "portrait",
+        "enable_overlay": true,
+        "overlay_color": "#000000",
+        "overlay_opacity": 30,
+      },
+
+      "blocks": [
+
+        {
+          "type": "Card",
+
+          "settings": {
+            "title": "Blowout",
+            "text": "For those who move fast but never compromise on elegance.",
+            "btn": "see more"
+          }
+        },
+
+        {
+          "type": "Card",
+
+          "settings": {
+            "title": "Straight",
+            "text": "For those who believe simplicity is the ultimate statement.",
+            "btn": "see more"
+          }
+        },
+
+        {
+          "type": "Card",
+
+          "settings": {
+            "title": "Curls",
+            "text": "For those who embrace volume, power, and unapologetic beauty.",
+            "btn": "see more"
+          }
+        },
+
+        {
+          "type": "Card",
+
+          "settings": {
+            "title": "Waves",
+            "text": "For those who live between effortless and undone perfection.",
+            "btn": "see more"
+          }
+        }
+
+      ]
+    }
+
+  ]
+
+}
+
+{% endschema %}

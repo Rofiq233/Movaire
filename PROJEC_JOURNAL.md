@@ -38,3 +38,5 @@ Tech Stack:
 ## v0.3.0
 - featured product section 60% done
 - full with video section added 
+## v0.4.0
+text with card section added 
