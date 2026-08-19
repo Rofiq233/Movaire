@@ -1,0 +1,12 @@
+{%- capture class -%}{{ class }} icon icon-{{ icon | handle }} {%- endcapture -%}
+{%- case icon -%}
+
+    {%- when 'drag-icon' -%}
+
+    <svg role="presentation" focusable="false" fill="none" width="68" height="68" viewBox="0 0 68 68">
+            <g>
+              <rect width="60" height="60" x="4" y="2" fill="#ffffff" rx="30"></rect>
+              <path fill="#e8aab1" d="M28 26h1.5v12H28zM33 26h1.5v12H33zM38 26h1.5v12H38z"></path>
+            </g>
+          </svg>
+    {% endcase %}

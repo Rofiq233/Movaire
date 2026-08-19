@@ -2,8 +2,8 @@
 
 {%- style -%}
   .section-{{ section.id }}-padding {
-    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    padding-top: {{ section.settings.mobile_padding_top}}px;
+    padding-bottom: {{ section.settings.mobile_padding_bottom }}px;
   }
 
   @media screen and (min-width: 750px) {
@@ -25,7 +25,7 @@
 -%}
 
 <div class="section-{{ section.id }}-padding gradient color-{{ section.settings.section_color_scheme }}">
-  <div class="page-width">
+  <div class=" {{ section.settings.section_layout }} ">
     <div class="image-with-text image-with-text--{{ section.settings.content_layout }} isolate{% if settings.text_boxes_border_thickness > 0 and settings.text_boxes_border_opacity > 0 and settings.media_border_thickness > 0 and settings.media_border_opacity > 0 %} collapse-borders{% endif %}{% unless section.settings.color_scheme == section.settings.section_color_scheme and settings.media_border_thickness > 0 and settings.text_boxes_shadow_opacity == 0 and settings.text_boxes_border_thickness == 0 or settings.text_boxes_border_opacity == 0 %} collapse-corners{% endunless %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
       <div class="image-with-text__grid grid grid--gapless grid--1-col grid--{% if section.settings.desktop_image_width == 'medium' %}2-col-tablet{% else %}3-col-tablet{% endif %}{% if section.settings.layout == 'text_first' %} image-with-text__grid--reverse{% endif %}">
         <div class="image-with-text__media-item image-with-text__media-item--{{ section.settings.desktop_image_width }} image-with-text__media-item--{{ section.settings.desktop_content_position }} grid__item">
@@ -67,12 +67,35 @@
             {%- for block in section.blocks -%}
               {% case block.type %}
                 {%- when 'heading' -%}
-                  <h2
+                  {% comment %} <h2
                     class="image-with-text__heading inline-richtext {{ block.settings.heading_size }}"
                     {{ block.shopify_attributes }}
                   >
                     {{ block.settings.heading }}
-                  </h2>
+                  </h2> {% endcomment %}
+                  <highlighted-heading
+                      class="highlighted-heading"
+                      effect="underline-pencil"
+                      style="--heading-highlight-accent-color: 246 166 172;"
+                    >
+                      Salon
+                      <em class="bold">
+                        <strong>results</strong>
+                      </em>
+                      at home
+
+                      <svg
+                        class="highlighted-heading__svg"
+                        viewBox="0 0 300 32"
+                        preserveAspectRatio="none"
+                        aria-hidden="true"
+                      >
+                        <path
+                          class="highlighted-heading__path"
+                          d="M3 18 C55 13, 100 21, 150 17 C205 13, 250 21, 297 16"
+                        />
+                      </svg>
+                    </highlighted-heading>
                 {%- when 'caption' -%}
                   <p
                     class="image-with-text__text image-with-text__text--caption {{ block.settings.text_style }} {{ block.settings.text_style }}--{{ block.settings.text_size }} {{ block.settings.text_style }}"
@@ -85,20 +108,21 @@
                     {{ block.settings.text }}
                   </div>
                 {%- when 'button' -%}
-                  {%- if block.settings.button_label != blank -%}
+                  {%- if block.settings.btn != blank -%}
                     <a
-                      {% if block.settings.button_link == blank %}
+                      {% if block.settings.url == blank %}
                         role="link" aria-disabled="true"
                       {% else %}
-                        href="{{ block.settings.button_link }}"
+                        href="{{ block.settings.url }}"
                       {% endif %}
-                      class="button{% if block.settings.button_style_secondary %} button--secondary{% else %} button--primary{% endif %}"
+                      class="button button--{{ block.settings.button_style }}"
                       {{ block.shopify_attributes }}
                     >
-                      {{ block.settings.button_label | escape }}
-                    </a>
+                      <span>{{ block.settings.btn | escape }}</span>
+                      <span>{{ block.settings.btn | escape }}</span>
+                    </a> 
                   {%- endif -%}
-              {%- endcase -%}
+              {%- endcase -%}  
             {%- endfor -%}
           </div>
         </div>
@@ -106,6 +130,41 @@
     </div>
   </div>
 </div>
+
+
+
+<script>
+
+
+  document.addEventListener("DOMContentLoaded", () => {
+  const headings = document.querySelectorAll(
+    'highlighted-heading[effect="underline-pencil"]'
+  );
+
+  if (!headings.length) return;
+
+  const observer = new IntersectionObserver(
+    (entries, observer) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+
+        entry.target.classList.add("is-visible");
+
+        // একবারই চালাবে
+        observer.unobserve(entry.target);
+      });
+    },
+    {
+      threshold: 0.3
+    }
+  );
+
+  headings.forEach((heading) => {
+    observer.observe(heading);
+  });
+});
+</script>
+
 
 {% schema %}
 {
@@ -115,6 +174,21 @@
     "groups": ["header", "footer"]
   },
   "settings": [
+    {
+    "type": "select",
+    "id": "section_layout",
+    "label": "Section Layout",
+    "options": [
+        {
+            "label": "Full width",
+            "value": "full-width"
+        },
+        {
+            "label": "Page width",
+            "value": "page-width"
+        }
+    ]
+    },
     {
       "type": "image_picker",
       "id": "image",
@@ -301,11 +375,15 @@
       "content": "t:sections.all.padding.section_padding_heading"
     },
     {
+      "type": "paragraph",
+      "content": "Desktop"
+    },
+    {
       "type": "range",
       "id": "padding_top",
       "min": 0,
-      "max": 100,
-      "step": 4,
+      "max": 200,
+      "step": 2,
       "unit": "px",
       "label": "t:sections.all.padding.padding_top",
       "default": 36
@@ -314,12 +392,37 @@
       "type": "range",
       "id": "padding_bottom",
       "min": 0,
-      "max": 100,
-      "step": 4,
+      "max": 200,
+      "step": 2,
       "unit": "px",
       "label": "t:sections.all.padding.padding_bottom",
       "default": 36
+    },
+    {
+      "type": "paragraph",
+      "content": "Mobile"
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Bottom",
+      "default": 36
     }
+
   ],
   "blocks": [
     {
@@ -447,23 +550,39 @@
       "limit": 1,
       "settings": [
         {
-          "type": "text",
-          "id": "button_label",
-          "default": "t:sections.image-with-text.blocks.button.settings.button_label.default",
-          "label": "t:sections.image-with-text.blocks.button.settings.button_label.label",
-          "info": "t:sections.image-with-text.blocks.button.settings.button_label.info"
+        "type": "text",
+        "id": "btn",
+        "label": "Button text",
+         "default":"Shop now"
+       },
+        {
+          "type": "select",
+          "id": "button_style",
+          "label": "Button style",
+          "options": [
+            {
+              "value": "primary",
+              "label": "Primary"
+            },
+            {
+              "value": "primary-outline",
+              "label": "Primary outline"
+            },
+            {
+              "value": "secondary",
+              "label": "Secondary"
+            },
+            {
+              "value": "secondary-outline",
+              "label": "Secondary Outline"
+            }
+          ]
         },
         {
           "type": "url",
-          "id": "button_link",
-          "label": "t:sections.image-with-text.blocks.button.settings.button_link.label"
+          "id": "url",
+          "label": "Url"
         },
-        {
-          "type": "checkbox",
-          "id": "button_style_secondary",
-          "default": false,
-          "label": "t:sections.image-with-text.blocks.button.settings.outline_button.label"
-        }
       ]
     }
   ],

@@ -40,3 +40,6 @@ Tech Stack:
 - full with video section added 
 ## v0.4.0
 text with card section added 
+
+## v0.5.0
+after before section added 

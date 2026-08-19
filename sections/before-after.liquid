@@ -1,0 +1,380 @@
+{{- 'section-before-after.css' | asset_url | stylesheet_tag -}}
+
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.mobile_padding_top}}px;
+    padding-bottom: {{ section.settings.mobile_padding_bottom }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+
+<section
+  id="before-after-{{ section.id }}"
+  class="ba-section gradient color-{{ section.settings.section_color_scheme }} section-{{ section.id }}-padding"
+>
+  <div class=" {{ section.settings.layout }}" style="--ba-section__container:{{ section.settings.custom_width }}px">
+
+    {% if section.settings.heading != blank %}
+      <div class="ba-section__content">
+
+        <h2 class="ba-section__heading {{ section.settings.heading_size }}">
+          {{ section.settings.heading }}
+        </h2> 
+
+        {% if section.settings.description != blank %}
+          <div class="ba-section__description rte {{ section.settings.text_style }}">
+            {{ section.settings.description }}
+          </div>
+        {% endif %}
+
+        {% if section.settings.btn != blank %}
+          <a
+            class="ba-section__button button button--{{ section.settings.button_style }}"
+            href="{{ section.settings.url | default: '#' }}"
+          >
+            <span>{{ section.settings.btn }}</span>
+            <span>{{ section.settings.btn }}</span>
+          </a>
+        {% endif %}
+
+      </div>
+    {% endif %}
+
+
+    <before-after-slider
+      class="before-after-slider"
+      data-start-position="{{ section.settings.start_position }}"
+    >
+
+      <div class="before-after-slider__viewport">
+
+        <div class="before-after-slider__image before-after-slider__image--before">
+
+                  {% render 'smart-image',
+                      image: section.settings.before_image,
+                      width: 2000,
+                      loading: 'lazy',
+                     widths: '400,600,800,1000,1200,1400,1600,1800,2000',
+                     sizes: '(min-width: 750px) 80vw, 100vw',
+                     class: 'before-after-slider__img'
+                       %}
+      {% if section.settings.show_before_label %}
+          <div class="before-after-slider__label before-after-slider__label--before">
+            {{ section.settings.before_label }}
+          </div>
+        {% endif %}
+
+        </div>
+
+
+        <div class="before-after-slider__after">
+
+          <div class="before-after-slider__image before-after-slider__image--after">
+               {% render 'smart-image',
+                      image: section.settings.after_image,
+                      width: 2000,
+                      loading: 'lazy',
+                     widths: '400,600,800,1000,1200,1400,1600,1800,2000',
+                     sizes: '(min-width: 750px) 80vw, 100vw',
+                     class: 'before-after-slider__img'
+                       %}
+
+             {% if section.settings.show_after_label %}
+          <div class="before-after-slider__label before-after-slider__label--after">
+            {{ section.settings.after_label }}
+          </div>
+        {% endif %}
+
+          </div>
+
+        </div>
+      
+       
+
+        <div class="before-after-slider__divider">
+
+          <button
+            type="button"
+            class="before-after-slider__handle"
+            aria-label="Drag to compare before and after"
+          >
+            <span class="before-after-slider__handle-icon">
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+          </button>
+
+        </div>
+
+      </div>
+
+    </before-after-slider>
+
+  </div>
+</section>
+
+
+
+
+{% schema %}
+{
+  "name": "Before After Slider",
+  "tag": "section",
+  "class": "section-before-after",
+  "settings": [
+    {
+    "type": "select",
+    "id": "layout",
+    "label": "Layout",
+    "options": [
+        {
+            "label": "Full width",
+            "value": "full-width"
+        },
+        {
+            "label": "Page width",
+            "value": "page-width"
+        },
+        {
+            "label": "Custom width",
+            "value": "ba-section__container"
+        }
+    ]
+    
+    },
+     {
+      "type": "range",
+      "id": "custom_width",
+      "label": "Width",
+      "min": 500,
+      "max": 1500,
+      "step": 50,
+      "unit": "px",
+      "default": 500,
+      "visible_if": "{{ section.settings.layout == 'ba-section__container' }}"
+    },
+   {
+    "type": "header",
+    "content": "Contents"
+   },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Real results. Real transformation."
+    },
+     {
+          "type": "select",
+          "id": "heading_size",
+          "options": [
+            {
+              "value": "h2",
+              "label": "t:sections.all.heading_size.options__1.label"
+            },
+            {
+              "value": "h1",
+              "label": "t:sections.all.heading_size.options__2.label"
+            },
+            {
+              "value": "h0",
+              "label": "t:sections.all.heading_size.options__3.label"
+            },
+            {
+              "value": "hxl",
+              "label": "t:sections.all.heading_size.options__4.label"
+            },
+            {
+              "value": "hxxl",
+              "label": "t:sections.all.heading_size.options__5.label"
+            }
+          ],
+          "default": "h1",
+          "label": "t:sections.all.heading_size.label"
+        }
+,
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Discover a new way to style your hair: faster, easier and more effective. With visible results from the first use, transforming your routine has never been so simple.</p>"
+    },
+    {
+          "type": "select",
+          "id": "text_style",
+          "options": [
+            {
+              "value": "body",
+              "label": "t:sections.image-with-text.blocks.text.settings.text_style.options__1.label"
+            },
+            {
+              "value": "subtitle",
+              "label": "t:sections.image-with-text.blocks.text.settings.text_style.options__2.label"
+            }
+          ],
+          "default": "body",
+          "label": "t:sections.image-with-text.blocks.text.settings.text_style.label"
+        },
+       {
+        "type": "text",
+        "id": "btn",
+        "label": "Button text",
+         "default":"Shop now"
+       },
+        {
+          "type": "select",
+          "id": "button_style",
+          "label": "Button style",
+          "options": [
+            {
+              "value": "primary",
+              "label": "Primary"
+            },
+            {
+              "value": "primary-outline",
+              "label": "Primary outline"
+            },
+            {
+              "value": "secondary",
+              "label": "Secondary"
+            },
+            {
+              "value": "secondary-outline",
+              "label": "Secondary Outline"
+            }
+          ]
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Url"
+        },
+        {
+          "type": "header",
+          "content": "Images"
+        },
+      {
+      "type": "image_picker",
+      "id": "before_image",
+      "label": "Before image"
+    },
+    {
+      "type": "image_picker",
+      "id": "after_image",
+      "label": "After image"
+    },
+    {
+      "type": "header",
+      "content": "Labels"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_before_label",
+      "label": "Show before label",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "before_label",
+      "label": "Before label",
+      "default": "Before"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_after_label",
+      "label": "Show after label",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "after_label",
+      "label": "After label",
+      "default": "After"
+    },
+    {
+      "type": "range",
+      "id": "start_position",
+      "label": "Initial slider position",
+      "min": 10,
+      "max": 90,
+      "step": 1,
+      "unit": "%",
+      "default": 50
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "paragraph",
+      "content": "Desktop"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    },
+    {
+      "type": "paragraph",
+      "content": "Mobile"
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Bottom",
+      "default": 36
+    }
+,
+  {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+  ],
+  "presets": [
+    {
+      "name": "Before After Slider"
+    }
+  ]
+}
+{% endschema %}
+
+

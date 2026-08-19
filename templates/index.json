@@ -260,6 +260,84 @@
         "section_color_scheme": "",
         "card_color_scheme": ""
       }
+    },
+    "image_with_text_my3Py3": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_J7GL3E": {
+          "type": "heading",
+          "settings": {
+            "heading": "Salon <em>results</em> at home",
+            "heading_size": "h1"
+          }
+        },
+        "text_NpcbFK": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Our technology delivers salon-quality results while protecting your hair’s natural strength and shine.</p>",
+            "text_style": "body"
+          }
+        },
+        "button_B6zFHN": {
+          "type": "button",
+          "settings": {
+            "btn": "Shop now",
+            "button_style": "primary-outline",
+            "url": "#"
+          }
+        }
+      },
+      "block_order": [
+        "heading_J7GL3E",
+        "text_NpcbFK",
+        "button_B6zFHN"
+      ],
+      "disabled": true,
+      "name": "t:sections.image-with-text.presets.name",
+      "settings": {
+        "section_layout": "full-width",
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "text_first",
+        "image_behavior": "none",
+        "content_layout": "no-overlap",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "mobile_content_alignment": "left",
+        "section_color_scheme": "",
+        "color_scheme": "",
+        "padding_top": 100,
+        "padding_bottom": 100,
+        "mobile_padding_top": 50,
+        "mobile_padding_bottom": 50
+      }
+    },
+    "before_after_ac8XYX": {
+      "type": "before-after",
+      "name": "Before After Slider",
+      "settings": {
+        "layout": "ba-section__container",
+        "custom_width": 1000,
+        "heading": "Real results. Real transformation.",
+        "heading_size": "h1",
+        "description": "<p>Discover a new way to style your hair: faster, easier and more effective. With visible results from the first use, transforming your routine has never been so simple.</p>",
+        "text_style": "body",
+        "btn": "Shop now",
+        "button_style": "primary",
+        "url": "",
+        "before_image": "shopify://shop_images/Look.jpg",
+        "after_image": "shopify://shop_images/slideshow_mobile_495ea1c9-b1a6-4b96-8d95-96a5dfe06fcd.jpg",
+        "show_before_label": true,
+        "before_label": "Before",
+        "show_after_label": true,
+        "after_label": "After",
+        "start_position": 50,
+        "padding_top": 100,
+        "padding_bottom": 100,
+        "mobile_padding_top": 36,
+        "mobile_padding_bottom": 36,
+        "color_scheme": "scheme-1"
+      }
     }
   },
   "order": [
@@ -267,6 +345,8 @@
     "featured_collection",
     "logo_marquee_Czaawx",
     "full_with_video_d7FCQD",
-    "card_with_text_rUqCnm"
+    "card_with_text_rUqCnm",
+    "image_with_text_my3Py3",
+    "before_after_ac8XYX"
   ]
 }
