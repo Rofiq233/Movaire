@@ -43,3 +43,5 @@ text with card section added
 
 ## v0.5.0
 after before section added 
+## v0.6.0
+- review section added

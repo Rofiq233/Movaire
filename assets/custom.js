@@ -387,3 +387,83 @@ if (
   );
 
 }
+
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+
+  const pressSwiper = new Swiper(".pressSwiper", {
+
+    direction: "vertical",
+
+    slidesPerView: 1,
+
+    speed: 800,
+
+    loop: true,
+
+    effect: "slide",
+
+    allowTouchMove: true,
+
+    autoHeight: true,
+
+    // Auto Play
+    autoplay: {
+      delay: 4000,
+      disableOnInteraction: false,
+      pauseOnMouseEnter: false
+    }
+
+  });
+
+
+  const paginationItems = document.querySelectorAll(
+    ".press-pagination-item"
+  );
+
+
+  function updateActivePagination() {
+
+    paginationItems.forEach(function (item) {
+      item.classList.remove("active");
+    });
+
+    const activeIndex = pressSwiper.realIndex;
+
+    paginationItems.forEach(function (item) {
+
+      if (Number(item.dataset.slide) === activeIndex) {
+        item.classList.add("active");
+      }
+
+    });
+
+  }
+
+
+  // প্রথম Active
+  updateActivePagination();
+
+
+  // Slide Change হলে Text Active Change
+  pressSwiper.on("slideChange", function () {
+    updateActivePagination();
+  });
+
+
+  // Text Click করলে সেই Slide এ যাবে
+  paginationItems.forEach(function (item) {
+
+    item.addEventListener("click", function () {
+
+      const slideIndex = Number(this.dataset.slide);
+
+      pressSwiper.slideToLoop(slideIndex);
+
+    });
+
+  });
+
+});

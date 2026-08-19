@@ -1,0 +1,238 @@
+{{ 'review-slider.css' |  asset_url |  stylesheet_tag }}
+
+
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.mobile_padding_top}}px;
+    padding-bottom: {{ section.settings.mobile_padding_bottom }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+
+<div class="press-slider-section gradient color-{{ section.settings.section_color_scheme }} section-{{ section.id }}-padding">
+  <div class="{{ section.settings.layout }}"  style="--press-slider-container:{{ section.settings.custom_width }}px">
+
+    <div class="swiper pressSwiper">
+      <div class="swiper-wrapper">
+
+        {% for block in section.blocks %}
+          <div
+            class="swiper-slide"
+            {{ block.shopify_attributes }}
+          >
+            <div class="press-content">
+
+              <div class="press-label">
+                <span class="press-dot"></span>
+                <span>in the press</span>
+              </div>
+
+              <h2 class="press-title {{ block.settings.heading_size }}">
+                {{ block.settings.quote }}
+              </h2>
+
+            </div>
+          </div>
+        {% endfor %}
+
+      </div>
+    </div>
+
+    <div class="press-pagination-wrapper">
+      <div class="press-pagination">
+        {% for block in section.blocks %}
+          <span
+            class="press-pagination-item"
+            data-slide="{{ forloop.index0 }}"
+          >
+            {{ block.settings.press_name }}
+          </span>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+{% schema %}
+{
+  "name": "Review Slider",
+  "settings": [
+ {
+    "type": "select",
+    "id": "layout",
+    "label": "Layout",
+    "options": [
+        {
+            "label": "Full width",
+            "value": "full-width"
+        },
+        {
+            "label": "Page width",
+            "value": "page-width"
+        },
+        {
+            "label": "Custom width",
+            "value": "press-slider-container"
+        }
+    ]
+    
+    },
+     {
+      "type": "range",
+      "id": "custom_width",
+      "label": "Width",
+      "min": 500,
+      "max": 1500,
+      "step": 50,
+      "unit": "px",
+      "default": 500,
+      "visible_if": "{{ section.settings.layout == 'press-slider-container' }}"
+    },
+     {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "paragraph",
+      "content": "Desktop"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    },
+    {
+      "type": "paragraph",
+      "content": "Mobile"
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Bottom",
+      "default": 36
+    }
+,
+  {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+  ],
+  "blocks": [
+    {
+      "type": "Slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "text",
+          "id": "press_name",
+          "label": "Press Name",
+          "default": "marie-claire"
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Quote",
+          "default": "I love how intuitive it is to use. It doesn't feel aggressive on my hair, and I can get a polished look without spending too much time in front of the mirror."
+        },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "options": [
+            {
+              "value": "h2",
+              "label": "t:sections.all.heading_size.options__1.label"
+            },
+            {
+              "value": "h1",
+              "label": "t:sections.all.heading_size.options__2.label"
+            },
+            {
+              "value": "h0",
+              "label": "t:sections.all.heading_size.options__3.label"
+            },
+            {
+              "value": "hxl",
+              "label": "t:sections.all.heading_size.options__4.label"
+            },
+            {
+              "value": "hxxl",
+              "label": "t:sections.all.heading_size.options__5.label"
+            }
+          ],
+          "default": "h1",
+          "label": "t:sections.all.heading_size.label"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Review Slider",
+      "blocks": [
+        {
+          "type": "Slide",
+          "settings": {
+            "press_name": "le monde"
+          }
+        },
+        {
+          "type": "Slide",
+          "settings": {
+            "press_name": "marie-claire"
+          }
+        },
+        {
+          "type": "Slide",
+          "settings": {
+            "press_name": "elle"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+
+
