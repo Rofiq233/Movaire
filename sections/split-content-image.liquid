@@ -1,0 +1,383 @@
+{{ 'split-content-image.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.mobile_padding_top}}px;
+    padding-bottom: {{ section.settings.mobile_padding_bottom }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+  {% endstyle  %}
+
+
+{% liquid
+  assign top_image_block = blank
+  assign content_blocks = blank
+  assign button_block = blank
+
+  for block in section.blocks
+    case block.type
+      when 'top_image'
+        assign top_image_block = block
+
+      when 'text'
+        assign content_blocks = content_blocks | append: block.id | append: ','
+
+      when 'button'
+        assign button_block = block
+    endcase
+  endfor
+%}
+
+<section class="split-content-image section-{{ section.id }} gradient color-{{ section.settings.section_color_scheme }} section-{{ section.id }}-padding">
+  <div class="split-content-image__inner {{ section.settings.layout }}">
+
+    <!-- LEFT SIDE -->
+    <div class="split-content-image__content">
+
+      <!-- Optional Top Image -->
+      {% if top_image_block != blank %}
+        <div
+          class="split-content-image__top"
+          {{ top_image_block.shopify_attributes }}
+        >
+        
+          {% render 'smart-image',
+                      image: top_image_block.settings.image,
+                      width: 300,
+                      loading: 'lazy',
+                     widths: '100,200,300',
+                     sizes: '300',
+                     class:"split-content-image__top-image"
+                     
+                       %}
+        </div>
+      {% endif %}
+
+
+      <!-- Middle Text Content -->
+      <div class="split-content-image__text-area">
+
+        {% for block in section.blocks %}
+          {% if block.type == 'text' %}
+            <div
+              class="split-content-image__text-block"
+              {{ block.shopify_attributes }}
+            >
+              {% if block.settings.heading != blank %}
+                <h2 class="split-content-image__heading {{ block.settings.heading_size }}">
+                  {{ block.settings.heading }}
+                </h2>
+              {% endif %}
+
+              {% if block.settings.text != blank %}
+                <div class="split-content-image__text rte {{ block.settings.text_style }}">
+                  {{ block.settings.text }}
+                </div>
+              {% endif %}
+            </div>
+          {% endif %}
+        {% endfor %}
+
+      </div>
+
+
+      <!-- Bottom Button -->
+      {% if button_block != blank %}
+        <div
+          class="split-content-image__bottom"
+          {{ button_block.shopify_attributes }}
+        >
+          {% if button_block.settings.label != blank %}
+            <a
+              href="{{ button_block.settings.link | default: '#' }}"
+              class="split-content-image__button button button--{{ button_block.settings.button_style }}"
+            >
+              <span>{{ button_block.settings.label }}</span>
+              <span>{{ button_block.settings.label }}</span>
+            </a>
+          {% endif %}
+        </div>
+      {% endif %}
+ 
+    </div>
+
+
+    <div class="split-content-image__media">
+
+        <div
+          class="split-content-image__image-wrapper split-content-image__image-wrapper--{{ section.settings.image_ratio }}"
+        >
+          {% render 'smart-image',
+                      image: section.settings.image,
+                      width: 2000,    
+                      loading: 'lazy',
+                     widths: '400,600,800,1000,1200,1400,1600,1800,2000',
+                     sizes: '(min-width: 750px) 80vw, 100vw',
+                     class:"split-content-image__image"
+                       %}
+        </div>
+
+    </div>
+
+  </div>  
+</section>
+
+
+{% schema %}
+{
+  "name": "Split Content Image",
+  "tag": "section",
+  "class": "split-content-image-section",
+
+  "settings": [
+    {
+    "type": "select",
+    "id": "layout",
+    "label": "Layout",
+    "options": [
+        {
+            "label": "Full width",
+            "value": "full-width"
+        },
+        {
+            "label": "Page width",
+            "value": "page-width"
+        }
+    ]
+    },
+
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Right image"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Image ratio",
+
+      "options": [
+        {
+          "value": "adapt",
+          "label": "Adapt"
+        },
+        {
+          "value": "portrait",
+          "label": "Portrait"
+        },
+        {
+          "value": "square",
+          "label": "Square"
+        }
+      ],
+
+      "default": "adapt"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "paragraph",
+      "content": "Desktop"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    },
+    {
+      "type": "paragraph",
+      "content": "Mobile"
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Bottom",
+      "default": 36
+    },
+           {
+              "type": "color_scheme",
+              "id": "section_color_scheme",
+              "label": "Scheme"
+            }
+
+  ],
+
+  "blocks": [
+    {
+      "type": "top_image",
+      "name": "Top image",
+      "limit": 1,
+
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    },
+     
+    {
+      "type": "text",
+      "name": "Text content",
+      "limit": 1,
+
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default":"About Riccia"
+        },
+        {
+            "type": "select",
+            "id": "heading_size",
+            "options": [
+                {
+                "value": "h2",
+                "label": "t:sections.all.heading_size.options__1.label"
+                },
+                {
+                "value": "h1",
+                "label": "t:sections.all.heading_size.options__2.label"
+                },
+                {
+                "value": "h0",
+                "label": "t:sections.all.heading_size.options__3.label"
+                },
+                {
+                "value": "hxl",
+                "label": "t:sections.all.heading_size.options__4.label"
+                },
+                {
+                "value": "hxxl",
+                "label": "t:sections.all.heading_size.options__5.label"
+                }
+            ],
+            "default": "h1",
+            "label": "t:sections.all.heading_size.label"
+            },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default":"<p>Riccia was created with a simple idea: styling your hair should feel effortless, not complicated. We believe that every hair type deserves tools that truly understand it — tools that adapt, protect, and perform.</p>"
+        },
+        {
+          "type": "select",
+          "id": "text_style",
+          "options": [
+            {
+              "value": "body",
+              "label": "t:sections.image-with-text.blocks.text.settings.text_style.options__1.label"
+            },
+            {
+              "value": "subtitle",
+              "label": "t:sections.image-with-text.blocks.text.settings.text_style.options__2.label"
+            }
+          ],
+          "default": "body",
+          "label": "t:sections.image-with-text.blocks.text.settings.text_style.label"
+        }
+      ]
+    },
+
+    {
+      "type": "button",
+      "name": "Button",
+      "limit": 1,
+
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Button label",
+          "default": "Learn more"
+        },
+        {
+          "type": "select",
+          "id": "button_style",
+          "label": "Button style",
+          "options": [
+            {
+              "value": "primary",
+              "label": "Primary"
+            },
+            {
+              "value": "primary-outline",
+              "label": "Primary outline"
+            },
+            {
+              "value": "secondary",
+              "label": "Secondary"
+            },
+            {
+              "value": "secondary-outline",
+              "label": "Secondary Outline"
+            }
+          ]
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Button link"
+        }
+      ]
+    }
+  ],
+
+  "presets": [
+    {
+      "name": "Split Content Image",
+      "blocks": [
+        {
+          "type": "top_image"
+        },
+        {
+          "type": "text" 
+        },
+        {
+          "type": "button"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

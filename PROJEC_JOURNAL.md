@@ -45,3 +45,5 @@ text with card section added
 after before section added 
 ## v0.6.0
 - review section added
+## v0.7.0
+- newsletter section added

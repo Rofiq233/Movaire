@@ -1,0 +1,300 @@
+{{ 'newsletter-signup.css' | asset_url | stylesheet_tag }}
+
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.mobile_padding_top}}px;
+    padding-bottom: {{ section.settings.mobile_padding_bottom }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+
+ 
+<section class="newsletter-signup gradient color-{{ section.settings.section_color_scheme }} section-{{ section.id }}-padding">
+  <div class="newsletter-signup__inner">
+
+    {% if section.settings.icon != blank %}
+      <div class="newsletter-signup__icon">
+        {{
+          section.settings.icon
+          | image_url: width: 200
+          | image_tag:
+            loading: 'lazy',
+            class: 'newsletter-signup__icon-image'
+        }}
+      </div>
+    {% endif %}
+
+    {% if section.settings.heading != blank %}
+      <div class="newsletter-signup__heading {{ section.settings.heading_size }}">
+        {{ section.settings.heading }}
+      </div>
+    {% endif %}
+
+    {% form 'customer', class: 'newsletter-signup__form' %}
+      <input type="hidden" name="contact[tags]" value="newsletter">
+
+      <div class="newsletter-signup__form-row">
+        <input
+          type="email"
+          name="contact[email]"
+          class="newsletter-signup__input"
+          value="{{ form.email }}"
+          placeholder="{{ section.settings.placeholder }}"
+          autocorrect="off"
+          autocapitalize="off"
+          autocomplete="email"
+          required
+        >
+
+        <button
+          type="submit"
+          class="newsletter-signup__button button button--{{ section.settings.button_style }}"
+          name="commit"
+        >
+          <span>
+            {{ section.settings.button_label }}
+
+            <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M5 12H19M19 12L13 6M19 12L13 18"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          </span>
+          <span>
+            {{ section.settings.button_label }}
+
+            <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M5 12H19M19 12L13 6M19 12L13 18"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          </span>
+
+        
+        </button>
+      </div>
+
+      {% if form.errors %}
+        <div class="newsletter-signup__error">
+          {{ form.errors | default_errors }}
+        </div>
+      {% endif %}
+
+      {% if form.posted_successfully? %}
+        <div class="newsletter-signup__success rte {{ section.settings.text_style }}">
+          {{ section.settings.success_message }}
+        </div>
+      {% endif %}
+    {% endform %}
+
+    {% if section.settings.privacy_text != blank %}
+      <div class="newsletter-signup__privacy rte {{ section.settings.text_style }}">
+        {{ section.settings.privacy_text }}
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Newsletter signup",
+  "tag": "section",
+  "class": "newsletter-signup-section",
+
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "icon",
+      "label": "Icon"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "<p><strong>Subscribe</strong> for updates, offers & news.</p>"
+    },
+    {
+          "type": "select",
+          "id": "heading_size",
+          "options": [
+            {
+              "value": "h2",
+              "label": "t:sections.all.heading_size.options__1.label"
+            },
+            {
+              "value": "h1",
+              "label": "t:sections.all.heading_size.options__2.label"
+            },
+            {
+              "value": "h0",
+              "label": "t:sections.all.heading_size.options__3.label"
+            },
+            {
+              "value": "hxl",
+              "label": "t:sections.all.heading_size.options__4.label"
+            },
+            {
+              "value": "hxxl",
+              "label": "t:sections.all.heading_size.options__5.label"
+            }
+          ],
+          "default": "h1",
+          "label": "t:sections.all.heading_size.label"
+        },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Email placeholder",
+      "default": "E-mail"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Subscribe"
+    },
+    {
+          "type": "select",
+          "id": "button_style",
+          "label": "Button style",
+          "options": [
+            {
+              "value": "primary",
+              "label": "Primary"
+            },
+            {
+              "value": "primary-outline",
+              "label": "Primary outline"
+            },
+            {
+              "value": "secondary",
+              "label": "Secondary"
+            },
+            {
+              "value": "secondary-outline",
+              "label": "Secondary Outline"
+            }
+          ]
+        },
+    {
+      "type": "richtext",
+      "id": "privacy_text",
+      "label": "Privacy text",
+      "default": "<p>By signing up, you agree with our privacy policy.</p>"
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Success message",
+      "default": "Thanks for subscribing!"
+    },
+    {
+          "type": "select",
+          "id": "text_style",
+          "options": [
+            {
+              "value": "body",
+              "label": "t:sections.image-with-text.blocks.text.settings.text_style.options__1.label"
+            },
+            {
+              "value": "subtitle",
+              "label": "t:sections.image-with-text.blocks.text.settings.text_style.options__2.label"
+            }
+          ],
+          "default": "body",
+          "label": "t:sections.image-with-text.blocks.text.settings.text_style.label"
+        },
+         {
+              "type": "color_scheme",
+              "id": "section_color_scheme",
+              "label": "Scheme",
+              "default":"scheme-3"
+            },  
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "paragraph",
+      "content": "Desktop"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    },
+    {
+      "type": "paragraph",
+      "content": "Mobile"
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Bottom",
+      "default": 36
+    }
+  ],
+
+  "presets": [
+    {
+      "name": "Newsletter signup"
+    }
+  ]
+}
+{% endschema %}

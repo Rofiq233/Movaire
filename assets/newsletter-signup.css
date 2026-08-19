@@ -1,0 +1,184 @@
+
+
+.newsletter-signup__inner {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+
+.newsletter-signup__icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.newsletter-signup__icon-image {
+  display: block;
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+}
+
+
+
+.newsletter-signup__heading {
+  width: 100%;
+  margin-bottom: 48px;
+}
+
+.newsletter-signup__heading p {
+  margin: 0;
+}
+
+.newsletter-signup__heading strong {
+  font-weight: 700;
+}
+
+
+
+
+/* =====================
+   FORM
+===================== */
+
+.newsletter-signup__form {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.newsletter-signup__form-row {
+  display: flex;
+  width: 100%;
+  height: 56px;
+  overflow: hidden;
+  border-radius: 999px;
+}
+
+.newsletter-signup__input {
+  width: 100%;
+  min-width: 0;
+  padding: 0 22px;
+  border: none;
+  outline: none;
+  background: rgb(var(--input_bg_color));
+  color: rgb(var(--input_color));
+  font-family: inherit;
+  font-size: 18px;
+}
+
+.newsletter-signup__input::placeholder {
+  color: rgb(var(--placeholder));
+  opacity: 1;
+}
+
+.newsletter-signup__button {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  padding-right: 46px;
+}
+.newsletter-signup__button span{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.newsletter-signup__button svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+
+.newsletter-signup__privacy {
+  width: 100%;
+  margin-top: 22px;
+  color: rgba(var(--color-foreground));
+}
+
+.newsletter-signup__privacy p {
+  margin: 0;
+}
+
+
+
+.newsletter-signup__error,
+.newsletter-signup__success {
+  margin-top: 15px;
+  color: rgba(var(--color-foreground));
+}
+
+
+
+@media screen and (max-width: 749px) {
+  .newsletter-signup {
+    padding: 70px 20px;
+  }
+.newsletter-signup__heading{
+    font-size: 30px;
+}
+  .newsletter-signup__button span{
+    font-size: 18px;
+    justify-content: center;
+  }
+  
+  .newsletter-signup__icon {
+    margin-bottom: 28px;
+  }
+
+  .newsletter-signup__heading {
+    margin-bottom: 35px;
+  }
+
+
+  .newsletter-signup__form {
+    max-width: 600px;
+  }
+}
+
+
+
+@media screen and (max-width: 480px) {
+  .newsletter-signup {
+    padding: 50px 15px;
+  }
+
+  .newsletter-signup__icon {
+    margin-bottom: 22px;
+  }
+
+  .newsletter-signup__icon-image {
+    width: 42px;
+    height: 42px;
+  }
+
+  .newsletter-signup__heading {
+    margin-bottom: 30px;
+  }
+
+
+  .newsletter-signup__form-row {
+    height: auto;
+    flex-direction: column;
+    overflow: visible;
+    border-radius: 0;
+    gap: 10px;
+  }
+
+  .newsletter-signup__input {
+    height: 54px;
+    border-radius: 999px;
+  }
+
+  .newsletter-signup__button {
+    width: 100%;
+    height: 54px;
+    border-radius: 999px;
+  }
+
+  .newsletter-signup__privacy {
+    margin-top: 18px;
+  }
+}

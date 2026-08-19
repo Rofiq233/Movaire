@@ -346,21 +346,24 @@
           "type": "Slide",
           "settings": {
             "press_name": "le monde",
-            "quote": "I love how intuitive it is to use. It doesn't feel aggressive on my hair, and I can get a polished look without spending too much time in front of the mirror."
+            "quote": "I love how intuitive it is to use. It doesn't feel aggressive on my hair, and I can get a polished look without spending too much time in front of the mirror.",
+            "heading_size": "h1"
           }
         },
         "slide_jQWjc3": {
           "type": "Slide",
           "settings": {
             "press_name": "marie-claire",
-            "quote": "I love how intuitive it is to use. It doesn't feel aggressive on my hair, and I can get a polished look without spending too much time in front of the mirror."
+            "quote": "I love how intuitive it is to use. It doesn't feel aggressive on my hair, and I can get a polished look without spending too much time in front of the mirror.",
+            "heading_size": "h1"
           }
         },
         "slide_36UVKB": {
           "type": "Slide",
           "settings": {
             "press_name": "elle",
-            "quote": "I love how intuitive it is to use. It doesn't feel aggressive on my hair, and I can get a polished look without spending too much time in front of the mirror."
+            "quote": "I love how intuitive it is to use. It doesn't feel aggressive on my hair, and I can get a polished look without spending too much time in front of the mirror.",
+            "heading_size": "h1"
           }
         }
       },
@@ -379,6 +382,66 @@
         "mobile_padding_bottom": 36,
         "color_scheme": ""
       }
+    },
+    "split_content_image_LYPy7K": {
+      "type": "split-content-image",
+      "blocks": {
+        "top_image_7RH3XJ": {
+          "type": "top_image",
+          "settings": {}
+        },
+        "text_Ch3tyQ": {
+          "type": "text",
+          "settings": {
+            "heading": "About Riccia",
+            "heading_size": "h1",
+            "text": "<p>Riccia was created with a simple idea: styling your hair should feel effortless, not complicated. We believe that every hair type deserves tools that truly understand it — tools that adapt, protect, and perform.</p>",
+            "text_style": "body"
+          }
+        },
+        "button_CWWpmx": {
+          "type": "button",
+          "settings": {
+            "label": "Learn more",
+            "button_style": "primary",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "top_image_7RH3XJ",
+        "text_Ch3tyQ",
+        "button_CWWpmx"
+      ],
+      "name": "Split Content Image",
+      "settings": {
+        "layout": "full-width",
+        "image_ratio": "adapt",
+        "padding_top": 100,
+        "padding_bottom": 100,
+        "mobile_padding_top": 50,
+        "mobile_padding_bottom": 50,
+        "section_color_scheme": ""
+      }
+    },
+    "newsletter_signup_pxi3UR": {
+      "type": "newsletter-signup",
+      "name": "Newsletter signup",
+      "settings": {
+        "heading": "<p><strong>Subscribe</strong> for updates, offers & news.</p>",
+        "heading_size": "h0",
+        "placeholder": "E-mail",
+        "button_label": "Subscribe",
+        "button_style": "primary",
+        "privacy_text": "<p>By signing up, you agree with our privacy policy.</p>",
+        "success_message": "Thanks for subscribing!",
+        "text_style": "body",
+        "section_color_scheme": "scheme-3",
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "mobile_padding_top": 36,
+        "mobile_padding_bottom": 36
+      }
     }
   },
   "order": [
@@ -389,6 +452,8 @@
     "card_with_text_rUqCnm",
     "image_with_text_my3Py3",
     "before_after_ac8XYX",
-    "review_slider_fWwctJ"
+    "review_slider_fWwctJ",
+    "split_content_image_LYPy7K",
+    "newsletter_signup_pxi3UR"
   ]
 }
